@@ -708,7 +708,9 @@ body{overflow-x:hidden;touch-action:pan-x pan-y}
       <div class="sgr wrap dep"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="2.5"/><path d="M3.5 10h17M7 14.5h4"/></svg></span><span class="t"><b>Alerte enveloppe</b><small id="sRemEnv"></small></span><div class="sseg" role="group" data-pref="remEnv"><button type="button" data-val="0">Off</button><button type="button" data-val="70">70 %</button><button type="button" data-val="80">80 %</button><button type="button" data-val="90">90 %</button></div></div>
       <div class="sgr wrap dep pwa-only"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></span><span class="t"><b>Rappel de sauvegarde</b><small id="sRemBk"></small></span><div class="sseg" role="group" data-pref="remBackup"><button type="button" data-val="0">Off</button><button type="button" data-val="15">15 j</button><button type="button" data-val="30">30 j</button></div></div>
     </div></div>
-    <div class="sgp"><h3 class="sgt">Notifications iPhone</h3><p class="sgd">Les rappels sont ajoutés à l’app Calendrier, qui t’envoie les notifications. Réimporte le fichier quand tu modifies tes prélèvements.</p><div class="sgl">
+    <div class="sgp"><h3 class="sgt">Notifications iPhone</h3><p class="sgd">Reçois tes rappels directement sur l’iPhone : prélèvement la veille, jour de paie, alerte d’enveloppe et rappel du soir. Les horaires se règlent ci-dessous.</p><div class="sgl">
+      <div class="sgr" id="pushRow"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span><span class="t"><b>Notifications de l’app</b><small id="sPush"></small></span><button type="button" class="ghost sm" id="pushTg">Activer</button></div>
+      <button type="button" class="sgr" id="pushTest" hidden><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></svg></span><span class="t"><b>Envoyer une notification test</b><small>Pour vérifier que tout fonctionne</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       <div class="sgr wrap"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span><span class="t"><b>Heure de l’alerte</b><small id="sIcsH"></small></span><div class="sseg" role="group" data-pref="icsHour"><button type="button" data-val="8">8 h</button><button type="button" data-val="9">9 h</button><button type="button" data-val="12">12 h</button><button type="button" data-val="18">18 h</button></div></div>
 <div class="sgr"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4zM13.5 6.5l4 4"/></svg></span><span class="t"><b>Rappel quotidien</b><small id="sDaily"></small></span><button type="button" class="swt" role="switch" aria-checked="false" data-pref="daily" aria-label="Rappel quotidien"><i></i></button></div>
       <div class="sgr wrap dep2"><span class="ic n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span class="t"><b>Heure du rappel quotidien</b><small id="sDailyH"></small></span><div class="sseg" role="group" data-pref="dailyHour"><button type="button" data-val="19">19 h</button><button type="button" data-val="20">20 h</button><button type="button" data-val="21">21 h</button><button type="button" data-val="22">22 h</button></div></div>
@@ -1164,7 +1166,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('.ics');if(b)expo
 $('#rem').addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
   if(a.startsWith('fe:'))openFe(+a.slice(3));else if(a==='set')openSet();else if(a==='add'){resetForm();openSheet()}else if(a==='backup'){setView('set');setTimeout(()=>{const d=$('#dataSlot')||$('#setv');d.scrollIntoView({block:'start'})},60)}else if(a.startsWith('env:'))openDet(a.slice(4))});
 $('#ep').addEventListener('click',e=>{const b=e.target.closest('[data-fe]');if(b)return openFe(+b.dataset.fe);if(e.target.closest('#epNew')){S.conf.fixes.push({n:'',a:0,g:'epargne',freq:'m'});feChanged();openFe(S.conf.fixes.length-1)}});
-const renderAll=()=>{renderHero();renderEnv();renderList();renderFx();renderForm();renderDetail();renderCal();renderEp();renderPayPill();renderRem();renderSetPage()};
+const renderAll=()=>{renderHero();renderEnv();renderList();renderFx();renderForm();renderDetail();renderCal();renderEp();renderPayPill();renderRem();renderSetPage();if(typeof pushSync==='function')pushSync()};
 
 /* toast */
 let tT=null;
@@ -1219,7 +1221,7 @@ function subTx(){
   if(!db)return;if(unsubTx)unsubTx();txOK=false;
   unsubTx=db.collection('tx').where('m','==',S.month).onSnapshot(s=>{
     S.tx=s.docs.map(d=>{const x=d.data()||{};return{id:d.id,a:+x.a||0,t:x.t==='rev'?'rev':'dep',c:String(x.c??''),l:String(x.l??''),d:String(x.d??''),m:String(x.m??''),ts:+x.ts||0,o:String(x.o??'')}});
-    if(!s.metadata.fromCache){txOK=true;ready()}renderHero();renderEnv();renderList();renderDetail();renderCal();
+    if(!s.metadata.fromCache){txOK=true;ready()}renderHero();renderEnv();renderList();renderDetail();renderCal();pushSync();
   },dbErr);
 }
 
@@ -1358,7 +1360,7 @@ $('#logoIn').addEventListener('change',async e=>{
 /* page Paramètres */
 function applyPrefs(){const P0=normPrefs(S.conf.prefs);document.body.classList.toggle('discret',P0.discret);$('#discretBtn').setAttribute('aria-pressed',P0.discret);try{localStorage.setItem('budget.splash',P0.splash?'1':'0')}catch(e){}}
 function setPref(k,v){S.conf.prefs=normPrefs(Object.assign({},S.conf.prefs,{[k]:v}));saveConf();applyPrefs();renderRem();renderSetPage()}
-function renderSetPage(){
+function renderSetPage(){if(typeof renderPush==='function')renderPush();
   if(S.view!=='set')return;const c=S.conf,P0=normPrefs(c.prefs),inc=c.incomes||[];
   $('#pvInc').textContent=inc.length?`${inc.length} revenu${inc.length>1?'s':''}${inc.some(x=>!x.day)?' · date à définir':''}`:'Aucun revenu';$('#pvIncV').textContent=eur0(c.revenu);
   const fxn=c.fixes.length,und=c.fixes.filter(f=>occ(f,S.month)===null).length;$('#pvFx').textContent=`${fxn} prélèvement${fxn>1?'s':''}${und?` · ${und} sans date`:''}`;$('#pvFxV').textContent=eur0(c.fixes.reduce((t,f)=>t+avgAmt(f),0));
@@ -1376,7 +1378,7 @@ function renderSetPage(){
   $('#sIcsH').textContent=`Prélèvements la veille à ${P0.icsHour} h · paie le jour même`;
   {const nI=buildIcs().n;$('#sIcsN').textContent=`${nI} rappel${nI>1?'s':''} à exporter${P0.daily?', dont le rappel quotidien':''}`}
   $('#sDaily').textContent=P0.daily?`Tous les jours à ${P0.dailyHour} h : mets à jour tes enveloppes`:'Désactivé';
-  $('#sDailyH').textContent='Notification de l’app Calendrier';
+  $('#sDailyH').textContent='Si tu n’as rien saisi dans la journée';
   $$('#setv .dep2').forEach(r=>r.classList.toggle('off',!P0.daily));
   $('#sDisc').textContent='Masque les montants, touche l’œil en haut pour basculer';
   $('#sSplash').textContent=P0.splash?'Logo animé à l’ouverture':'Ouverture directe';
@@ -1426,6 +1428,39 @@ secInit();
 /* bloque le pinch-zoom (iOS) */
 ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
 document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
+/* notifications push (serveur Cloudflare) */
+const PUSH_URL='https://budget-push.leny820.workers.dev',PK='budget.push';
+const pushGet=()=>{try{return JSON.parse(localStorage.getItem(PK)||'null')}catch(e){return null}};
+const pushOK=()=>'serviceWorker'in navigator&&'PushManager'in window&&'Notification'in window;
+const isApp=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const u64=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return ub64(s)};
+function pushState(){const st={prefs:normPrefs(S.conf.prefs),fixes:S.conf.fixes.map(f=>({n:f.n||'Prélèvement',a:+f.a||0,freq:f.freq||'m',day:f.day,start:f.start})),incomes:(S.conf.incomes||[]).map(x=>({n:x.n||'Revenu',a:+x.a||0,day:x.day}))};
+  if(S.month===CUR&&txOK){const r=calc();st.month=CUR;st.envs=S.conf.cats.filter(c=>c.b>0).map(c=>({n:c.n||'Enveloppe',b:+c.b,s:r.by[c.id]||0}));if(S.tx.some(t=>t.d===TODAY))st.txDate=TODAY}return st}
+const pushPost=(p,b)=>fetch(PUSH_URL+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json());
+let pT=null,pLast='';
+function pushSync(now){const P=pushGet();if(!P||!P.on||!pushOK())return;clearTimeout(pT);pT=setTimeout(async()=>{try{
+  const sub=await(await navigator.serviceWorker.ready).pushManager.getSubscription();if(!sub){localStorage.removeItem(PK);renderPush();return}
+  const b={id:P.id,sub:sub.toJSON(),state:pushState()},k=JSON.stringify(b);if(k===pLast)return;const r=await pushPost('/sync',b);if(r&&r.ok)pLast=k}catch(e){}},now?0:2500)}
+async function pushOn(){
+  if(!pushOK()||!isApp()){toast('Ouvre l’app depuis l’écran d’accueil pour activer les notifications.');return}
+  let perm='default';try{perm=await Notification.requestPermission()}catch(e){}
+  if(perm!=='granted'){renderPush();toast('Autorise-les dans Réglages › Notifications › Budget.');return}
+  try{const reg=await navigator.serviceWorker.ready,{key}=await fetch(PUSH_URL+'/vapid').then(r=>r.json());
+    let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u64(key)});
+    const id=(pushGet()||{}).id||b64(rnd(18)).replace(/\+/g,'-').replace(/\//g,'_');
+    localStorage.setItem(PK,JSON.stringify({on:true,id}));
+    const r=await pushPost('/test',{id,sub:sub.toJSON(),state:pushState()});pLast='';
+    toast(r&&r.ok&&r.push>=200&&r.push<300?'Notifications activées.':'Activation impossible ('+(r&&(r.push||r.error))+').')}catch(e){toast('Activation impossible, réessaie.')}
+  renderPush()}
+async function pushOff(){const P=pushGet();try{const s=await(await navigator.serviceWorker.ready).pushManager.getSubscription();if(s)await s.unsubscribe()}catch(e){}
+  if(P)pushPost('/off',{id:P.id}).catch(()=>{});localStorage.removeItem(PK);renderPush();toast('Notifications désactivées.')}
+function renderPush(){const tg=$('#pushTg'),sm=$('#sPush'),ts=$('#pushTest');if(!tg)return;const P=pushGet(),perm=('Notification'in window)?Notification.permission:'',on=!!(P&&P.on)&&perm==='granted';
+  if(!pushOK()||!isApp()){sm.textContent=window.__budgetStore?'Ouvre l’app depuis l’écran d’accueil (iOS 16.4 ou plus)':'Disponible dans l’app installée sur l’iPhone';tg.hidden=true;ts.hidden=true;return}
+  sm.textContent=on?'Activées sur cet iPhone':perm==='denied'?'Bloquées : Réglages › Notifications › Budget':'Directement sur l’écran verrouillé';
+  tg.hidden=perm==='denied'&&!on;tg.textContent=on?'Désactiver':'Activer';tg.classList.toggle('danger',on);ts.hidden=!on}
+$('#pushTg').addEventListener('click',()=>{const P=pushGet();if(P&&P.on)pushOff();else pushOn()});
+$('#pushTest').addEventListener('click',async()=>{const P=pushGet();if(!P)return;try{const sub=await(await navigator.serviceWorker.ready).pushManager.getSubscription();const r=await pushPost('/test',{id:P.id,sub:sub&&sub.toJSON(),state:pushState()});toast(r&&r.ok&&r.push>=200&&r.push<300?'Notification envoyée.':'Envoi impossible ('+(r&&(r.push||r.error))+').')}catch(e){toast('Envoi impossible.')}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){pLast='';pushSync()}});
 /* démarrage */
 resetForm();if(location.hash==='#calendrier')setView('cal',true);else if(location.hash==='#parametres')setView('set',true);renderAll();
 (async()=>{
